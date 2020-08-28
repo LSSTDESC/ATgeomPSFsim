@@ -6,6 +6,10 @@
 #
 #    author : Sylvie Dagoret-Campagne
 #    creation date : August 28th 2020
+#
+# run :
+#       python generateB4rayfile.py --config default.ini
+#
 ###################################################################################################################
 
 
@@ -587,7 +591,7 @@ if __name__ == "__main__":
         """
         wd = ['X0', 'Y0', 'Z0', 'U0', 'V0', 'W0', '@wave', 'X1', 'Y1', 'Z1', 'X2', 'Y2', 'Z2', 'X3', 'Y3', 'Z3',
               'Xgoal', 'Ygoal', 'Xfinal', 'Yfinal', 'Zfinal', 'Notes']
-        wd2 = "-----------:"
+        wd2 = "----------:"
 
         line1 = "{:d} {}".format(N, filename)
         line1 += os.linesep
@@ -640,7 +644,7 @@ if __name__ == "__main__":
     #-----------------------------------------------------------------------------
 
     # open output file
-    f = open(Beam4_Rayfile_RAY, 'w')
+    f = open(os.path.join(output_dir,Beam4_Rayfile_RAY), 'w')
 
     # header
     line1, line2, line3 = header(NBEAM * NWL, Beam4_Rayfile_RAY)
