@@ -539,7 +539,7 @@ if __name__ == "__main__":
     df = EntranceBeamPopulation(NBEAM_X, NBEAM_Y, Tel_Focal_Length, Tel_Diameter, -D_entrance)
 
     if FLAG_VERBOSE or FLAG_DEBUG:
-        print(df)
+        logger.info(df)
 
     ################################################
     # 3) Compute Beam Rays orientations
@@ -553,7 +553,7 @@ if __name__ == "__main__":
     df = ComputeAngles(df, alpha_x.radian, alpha_y.radian, -D_entrance)
 
     if FLAG_VERBOSE or FLAG_DEBUG:
-        print(df)
+        logger.info(df)
 
     # compute the norm
     if FLAG_VERBOSE or FLAG_DEBUG:
@@ -568,7 +568,7 @@ if __name__ == "__main__":
     df = ShiftBeamCenter(df, alpha_x.radian, alpha_y.radian, D_entrance, D_disperser)
 
     if FLAG_VERBOSE or FLAG_DEBUG:
-        print(df)
+        logger.info(df)
 
     # plot
     if FLAG_PLOT:
@@ -586,7 +586,7 @@ if __name__ == "__main__":
     df["Z1"] = 0
 
     if FLAG_VERBOSE or FLAG_DEBUG:
-        print(df)
+        logger.info(df)
 
 
     if FLAG_PLOT:
