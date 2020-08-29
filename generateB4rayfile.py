@@ -9,7 +9,9 @@
 #    update        : August 29th 2020
 #
 # run :
-#       python generateB4rayfile.py --config default.ini
+#       >python generateB4rayfile.py --config default.ini
+#       >python generateB4rayfile.py --config config/conf_CTIO_2020_08_29.ini
+#       >python generateB4rayfile.py --config config/conf_AuxTel_2020_08_27.ini
 #
 ###################################################################################################################
 
