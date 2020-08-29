@@ -6,6 +6,7 @@
 #
 #    author : Sylvie Dagoret-Campagne
 #    creation date : August 28th 2020
+#    update        : August 29th 2020
 #
 # run :
 #       python generateB4rayfile.py --config default.ini
@@ -462,6 +463,22 @@ if __name__ == "__main__":
         msg = f"empty config file {config_filename} !"
         logger.error(msg)
 
+    if 'GENERAL' in config_section:
+
+        FLAG_DEBUG = bool(config['GENERAL']['FLAG_DEBUG'])
+        FLAG_VERBOSE = bool(config['GENERAL']['FLAG_VERBOSE'])
+        FLAG_PLOT = bool(config['GENERAL']['FLAG_PLOT'])
+        FLAG_PRINT = bool(config['GENERAL']['FLAG_PRINT'])
+    else:
+        msg = f"empty section GENERAL in config file {config_filename} !"
+        logger.error(msg)
+
+    if FLAG_DEBUG:
+        logger.setLevel(logging.DEBUG)
+    else:
+        logger.setLevel(logging.INFO)
+
+
     if 'BEAMFOUR' in config_section:
         output_dir = config['BEAMFOUR']['outputdir']  # output directory
         root_filename = config['BEAMFOUR']['outputrayfile']  # base ray filename
@@ -519,7 +536,8 @@ if __name__ == "__main__":
 
     df = EntranceBeamPopulation(NBEAM_X, NBEAM_Y, Tel_Focal_Length, Tel_Diameter, -D_entrance)
 
-    print(df)
+    if FLAG_VERBOSE or FLAG_DEBUG:
+        print(df)
 
     ################################################
     # 3) Compute Beam Rays orientations
@@ -532,10 +550,12 @@ if __name__ == "__main__":
 
     df = ComputeAngles(df, alpha_x.radian, alpha_y.radian, -D_entrance)
 
-    print(df)
+    if FLAG_VERBOSE or FLAG_DEBUG:
+        print(df)
 
     # compute the norm
-    print(df.apply(lambda x: np.sqrt(x.U0**2+x.V0**2+x.W0**2), axis=1))
+    if FLAG_VERBOSE or FLAG_DEBUG:
+        print(df.apply(lambda x: np.sqrt(x.U0**2+x.V0**2+x.W0**2), axis=1))
 
     ################################################
     # 4) Shift Beam
@@ -545,10 +565,12 @@ if __name__ == "__main__":
 
     df = ShiftBeamCenter(df, alpha_x.radian, alpha_y.radian, D_entrance, D_disperser)
 
-    print(df)
+    if FLAG_VERBOSE or FLAG_DEBUG:
+        print(df)
 
     # plot
-    PlotTransverseBeamViewEntrance(df)
+    if FLAG_PLOT:
+        PlotTransverseBeamViewEntrance(df)
 
 
     ################################################
@@ -561,18 +583,20 @@ if __name__ == "__main__":
     df["Y1"] = df.apply(lambda x: (x.Y0 + d * x.V0 / x.W0), axis=1)
     df["Z1"] = 0
 
+    if FLAG_VERBOSE or FLAG_DEBUG:
+        print(df)
 
-    print(df)
 
-    Plot3DBeamView1(df)
+    if FLAG_PLOT:
+        Plot3DBeamView1(df)
 
-    Plot3DBeamView2(df)
+        Plot3DBeamView2(df)
 
     ################################################
     # 6) Write output file
     #################################################
 
-    logger.info('6) Write output file')
+    logger.info(f'6) Write BEAMFOUR Ray output file : {Beam4_Rayfile_RAY}')
 
 
     # -----------------------------------------------------------
@@ -665,4 +689,5 @@ if __name__ == "__main__":
 
     # close file
     f.close()
+#----------------------------------------------------------------------------------------------------------------------
 
